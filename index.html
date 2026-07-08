@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Sina AI</title>
 
     <link rel="stylesheet" href="style.css">
@@ -15,8 +16,6 @@
 
 <div class="app">
 
-    <!-- Sidebar -->
-
     <aside class="sidebar">
 
         <div class="logo">
@@ -24,8 +23,9 @@
         </div>
 
         <button id="newChat">
-            + چت جدید
+            ＋ چت جدید
         </button>
+
 
         <div class="history" id="history">
 
@@ -35,68 +35,128 @@
 
         </div>
 
+
+        <div class="profile">
+
+            <div class="avatar-user">
+                👤
+            </div>
+
+            <div>
+                <b>کاربر</b>
+                <small>نسخه رایگان</small>
+            </div>
+
+        </div>
+
+
         <div class="sidebar-footer">
             Sina AI v3.0
         </div>
 
+
     </aside>
 
-    <!-- Main -->
+
 
     <main class="main">
 
+
         <header class="header">
 
-            <h2>Sina AI</h2>
+            <div>
+                <h2>Sina AI</h2>
+
+                <span class="online">
+                    🟢 آنلاین
+                </span>
+
+            </div>
+
+
+            <button id="theme">
+                🌙
+            </button>
+
 
         </header>
 
+
+
         <section id="chatBox" class="chatBox">
+
 
             <div class="message bot">
 
-                <div class="avatar">
-                    🤖
-                </div>
+
+                <div class="logo">
+
+    <div class="logo-icon">
+        ✦
+    </div>
+
+    <span>
+        Sina AI
+    </span>
+
+</div>
+
 
                 <div class="bubble">
 
-                    <h3>👋 خوش اومدی</h3>
+
+                    <h3>
+                        👋 خوش اومدی
+                    </h3>
+
 
                     <p>
                         من Sina AI هستم.
                         <br><br>
-                        هر سوالی داری بپرس.
+                        آماده‌ام به سوالاتت جواب بدم 🚀
                     </p>
+
 
                 </div>
 
+
             </div>
+
 
         </section>
 
+
+
         <footer class="inputArea">
+
 
             <button id="attach">
                 📎
             </button>
 
+
             <input
                 id="prompt"
                 type="text"
-                placeholder="پیام خود را بنویس..."
+                placeholder="پیامت رو بنویس..."
                 autocomplete="off"
             >
+
 
             <button id="send">
                 ➤
             </button>
 
+
         </footer>
+
 
     </main>
 
+
 </div>
+
+
 
 <script src="script.js"></script>
 
