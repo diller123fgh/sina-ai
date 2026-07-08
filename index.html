@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sina AI</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🤖 <span>Sina AI</span>
+        </div>
+
+        <button id="newChat">
+            + چت جدید
+        </button>
+
+        <div class="history" id="history">
+
+            <div class="history-item active">
+                💬 گفتگوی جدید
+            </div>
+
+        </div>
+
+        <div class="sidebar-footer">
+            Sina AI v3.0
+        </div>
+
+    </aside>
+
+    <!-- Main -->
+
+    <main class="main">
+
+        <header class="header">
+
+            <h2>Sina AI</h2>
+
+        </header>
+
+        <section id="chatBox" class="chatBox">
+
+            <div class="message bot">
+
+                <div class="avatar">
+                    🤖
+                </div>
+
+                <div class="bubble">
+
+                    <h3>👋 خوش اومدی</h3>
+
+                    <p>
+                        من Sina AI هستم.
+                        <br><br>
+                        هر سوالی داری بپرس.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer class="inputArea">
+
+            <button id="attach">
+                📎
+            </button>
+
+            <input
+                id="prompt"
+                type="text"
+                placeholder="پیام خود را بنویس..."
+                autocomplete="off"
+            >
+
+            <button id="send">
+                ➤
+            </button>
+
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
