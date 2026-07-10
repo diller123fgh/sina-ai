@@ -2,54 +2,116 @@ const chatBox = document.getElementById("chatBox");
 const promptInput = document.getElementById("prompt");
 const sendBtn = document.getElementById("send");
 const newChatBtn = document.getElementById("newChat");
+const themeBtn = document.getElementById("theme");
+const attachBtn = document.getElementById("attach");
 
+const API_URL = "http://localhost:3000/chat";
+// اگر بعداً سرور را آنلاین کردی فقط همین خط را عوض می‌کنیم.
+
+function scrollBottom() {
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
 
 function createMessage(text, sender) {
 
     const message = document.createElement("div");
     message.className = `message ${sender}`;
 
-
     if (sender === "bot") {
 
-        const avatar = document.createElement("div");
-        avatar.className = "avatar";
-        avatar.textContent = "🤖";
-
-
-        const bubble = document.createElement("div");
-        bubble.className = "bubble";
-        bubble.textContent = text;
-
-
-        message.appendChild(avatar);
-        message.appendChild(bubble);
+        message.innerHTML = `
+            <div class="avatar">🤖</div>
+            <div class="bubble"></div>
+        `;
 
         chatBox.appendChild(message);
 
-        chatBox.scrollTop = chatBox.scrollHeight;
+        typeText(
+            message.querySelector(".bubble"),
+            text
+        );
 
-        return bubble;
+    } else {
+
+        message.innerHTML = `
+            <div class="bubble">${text}</div>
+        `;
+
+        chatBox.appendChild(message);
 
     }
 
-
-    const bubble = document.createElement("div");
-    bubble.className = "bubble";
-    bubble.textContent = text;
-
-
-    message.appendChild(bubble);
-
-    chatBox.appendChild(message);
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    return bubble;
+    scrollBottom();
 
 }
 
+function typeText(element, text) {
 
+    element.innerHTML = "";
+
+    let i = 0;
+
+    const timer = setInterval(() => {
+
+        if (i >= text.length) {
+
+            clearInterval(timer);
+
+            return;
+
+        }
+
+        element.innerHTML += text.charAt(i);
+
+        scrollBottom();
+
+        i++;
+
+    }, 15);
+
+}
+
+function showTyping() {
+
+    const loading = document.createElement("div");
+
+    loading.className = "message bot";
+
+    loading.id = "typing";
+
+    loading.innerHTML = `
+        <div class="avatar">🤖</div>
+
+        <div class="bubble">
+
+            <div class="typing">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+        </div>
+    `;
+
+    chatBox.appendChild(loading);
+
+    scrollBottom();
+
+}
+
+function hideTyping() {
+
+    const t = document.getElementById("typing");
+
+    if (t) {
+
+        t.remove();
+
+    }
+
+}
 
 async function sendMessage() {
 
@@ -57,196 +119,201 @@ async function sendMessage() {
 
     if (!text) return;
 
-
     createMessage(text, "user");
 
     promptInput.value = "";
 
-
-    const loading = createMessage(
-    "🤖",
-    "bot"
-);
-
-loading.innerHTML = `
-<div class="typing">
-<span></span>
-<span></span>
-<span></span>
-</div>
-`;
-
+    showTyping();
 
     try {
 
+        const response = await fetch(API_URL, {
 
-        const response = await fetch("https://sina-ai-wkfk.onrender.com/chat", {
-                method:"POST",
+            method: "POST",
 
-                headers:{
-                    "Content-Type":"application/json"
-                },
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-                body:JSON.stringify({
-                    message:text
-                })
-            }
-        );
+            body: JSON.stringify({
 
+                message: text
 
-        if(!response.ok){
+            })
 
-            throw new Error("Server Error");
-
-        }
-
+        });
 
         const data = await response.json();
 
+        hideTyping();
 
-        loading.textContent = "";
+        createMessage(
 
+            data.reply || "پاسخی دریافت نشد.",
 
-        const words = data.reply.split(" ");
+            "bot"
 
-        let index = 0;
+        );
 
+    } catch (err) {
 
-        const timer = setInterval(()=>{
+        hideTyping();
 
+        createMessage(
 
-            if(index >= words.length){
+            "❌ ارتباط با سرور برقرار نشد.",
 
-                clearInterval(timer);
+            "bot"
 
-                return;
-
-            }
-
-
-            loading.textContent += words[index] + " ";
-
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            index++;
-
-
-        },30);
-
-
-
-    }catch(err){
-
-
-        loading.textContent =
-        "❌ ارتباط با سرور برقرار نشد.";
+        );
 
         console.error(err);
 
     }
 
 }
+/* ===========================
+   Events
+=========================== */
 
+sendBtn.addEventListener("click", sendMessage);
 
+promptInput.addEventListener("keydown", (e) => {
 
+    if (e.key === "Enter") {
 
-sendBtn.addEventListener(
-    "click",
-    sendMessage
-);
-
-
-
-promptInput.addEventListener(
-    "keydown",
-    function(e){
-
-        if(e.key === "Enter"){
-
-            sendMessage();
-
-        }
+        sendMessage();
 
     }
-);
 
+});
 
+/* ===========================
+   Theme
+=========================== */
 
-newChatBtn.addEventListener(
-    "click",
-    function(){
+if (localStorage.getItem("theme") === "light") {
 
-        chatBox.innerHTML = "";
+    document.body.classList.add("light");
 
-        createMessage(
-            "👋 خوش اومدی\n\nهر سوالی داری بپرس.",
-            "bot"
-        );
+    if (themeBtn) {
 
-    }
-);
-
-
-
-window.onload = function(){
-
-    chatBox.innerHTML = "";
-
-    createMessage(
-        "👋 خوش اومدی\n\nهر سوالی داری بپرس.",
-        "bot"
-    );
-
-};
-
-
-
-// حالت تاریک و روشن 🌙
-
-const themeBtn = document.getElementById("theme");
-
-
-if(themeBtn){
-
-    themeBtn.addEventListener(
-        "click",
-        ()=>{
-
-
-            document.body.classList.toggle("light");
-
-
-            if(document.body.classList.contains("light")){
-
-                themeBtn.innerHTML="☀️";
-
-                localStorage.setItem(
-                    "theme",
-                    "light"
-                );
-
-            }else{
-
-                themeBtn.innerHTML="🌙";
-
-                localStorage.setItem(
-                    "theme",
-                    "dark"
-                );
-
-            }
-
-        }
-    );
-
-
-
-    if(localStorage.getItem("theme") === "light"){
-
-        document.body.classList.add("light");
-
-        themeBtn.innerHTML="☀️";
+        themeBtn.innerHTML = "☀️";
 
     }
 
 }
+
+if (themeBtn) {
+
+    themeBtn.addEventListener("click", () => {
+
+        document.body.classList.toggle("light");
+
+        if (document.body.classList.contains("light")) {
+
+            localStorage.setItem("theme", "light");
+
+            themeBtn.innerHTML = "☀️";
+
+        } else {
+
+            localStorage.setItem("theme", "dark");
+
+            themeBtn.innerHTML = "🌙";
+
+        }
+
+    });
+
+}
+
+/* ===========================
+   New Chat
+=========================== */
+
+newChatBtn.addEventListener("click", () => {
+
+    chatBox.innerHTML = `
+        <div class="welcome">
+
+            <div class="welcome-logo">
+                🤖
+            </div>
+
+            <h1>سلام 👋</h1>
+
+            <p>
+                من Sina AI هستم.
+                <br>
+                هر سوالی داری بپرس.
+            </p>
+
+        </div>
+    `;
+
+    localStorage.removeItem("chatHistory");
+
+});
+
+/* ===========================
+   Save History
+=========================== */
+
+const observer = new MutationObserver(() => {
+
+    localStorage.setItem(
+
+        "chatHistory",
+
+        chatBox.innerHTML
+
+    );
+
+});
+
+observer.observe(chatBox, {
+
+    childList: true,
+
+    subtree: true
+
+});
+
+window.addEventListener("load", () => {
+
+    const saved = localStorage.getItem("chatHistory");
+
+    if (saved) {
+
+        chatBox.innerHTML = saved;
+
+    }
+
+});
+
+/* ===========================
+   Attach Button
+=========================== */
+
+if (attachBtn) {
+
+    attachBtn.addEventListener("click", () => {
+
+        alert("📎 ارسال فایل در نسخه بعدی فعال می‌شود.");
+
+    });
+
+}
+
+/* ===========================
+   Auto Scroll
+=========================== */
+
+setInterval(scrollBottom, 300);
+
+/* ===========================
+   Finish
+=========================== */
+
+console.log("🚀 Sina AI v5 Ready");

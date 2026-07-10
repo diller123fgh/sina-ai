@@ -4,37 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Sina AI</title>
 
     <link rel="stylesheet" href="style.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4712/4712027.png">
 </head>
 
 <body>
 
+<div class="background"></div>
+
 <div class="app">
+
+    <!-- Sidebar -->
 
     <aside class="sidebar">
 
         <div class="logo">
-            🤖 <span>Sina AI</span>
+
+            <div class="logo-circle">
+                🤖
+            </div>
+
+            <h2>Sina AI</h2>
+
+            <p>Your Persian AI Assistant</p>
+
         </div>
 
         <button id="newChat">
-            ＋ چت جدید
+            ➕ چت جدید
         </button>
 
-
-        <div class="history" id="history">
+        <div id="history" class="history">
 
             <div class="history-item active">
                 💬 گفتگوی جدید
             </div>
 
         </div>
-
 
         <div class="profile">
 
@@ -43,120 +54,105 @@
             </div>
 
             <div>
-                <b>کاربر</b>
-                <small>نسخه رایگان</small>
+
+                <b>Sina</b>
+
+                <small>Online</small>
+
             </div>
 
         </div>
-
-
-        <div class="sidebar-footer">
-            Sina AI v3.0
-        </div>
-
 
     </aside>
 
-
+    <!-- Main -->
 
     <main class="main">
 
-
         <header class="header">
 
-            <div>
-                <h2>Sina AI</h2>
+            <div class="header-left">
 
-                <span class="online">
-                    🟢 آنلاین
-                </span>
+                <div class="ai-logo">
+                    🤖
+                </div>
 
-            </div>
+                <div>
 
+                    <h2>Sina AI</h2>
 
-            <button id="theme">
-                🌙
-            </button>
-
-
-        </header>
-
-
-
-        <section id="chatBox" class="chatBox">
-
-
-            <div class="message bot">
-
-
-                <div class="logo">
-
-    <div class="logo-icon">
-        ✦
-    </div>
-
-    <span>
-        Sina AI
-    </span>
-
-</div>
-
-
-                <div class="bubble">
-
-
-                    <h3>
-                        👋 خوش اومدی
-                    </h3>
-
-
-                    <p>
-                        من Sina AI هستم.
-                        <br><br>
-                        آماده‌ام به سوالاتت جواب بدم 🚀
+                    <p class="status">
+                        🟢 آنلاین
                     </p>
-
 
                 </div>
 
+            </div>
+
+            <div class="header-right">
+
+                <button id="theme" title="تم">
+                    🌙
+                </button>
+
+                <button id="settings" title="تنظیمات">
+                    ⚙️
+                </button>
+
+                <button id="profileBtn" title="پروفایل">
+                    👤
+                </button>
 
             </div>
 
+        </header>
+
+        <!-- Chat -->
+
+        <section id="chatBox" class="chatBox">
+
+            <div class="welcome">
+
+                <div class="welcome-logo">
+                    🤖
+                </div>
+
+                <h1>سلام 👋</h1>
+
+                <p>
+                    من Sina AI هستم.
+                    <br>
+                    هر سوالی داری بپرس.
+                </p>
+
+            </div>
 
         </section>
 
-
+        <!-- Input -->
 
         <footer class="inputArea">
 
-
-            <button id="attach">
+            <button id="attach" title="فایل">
                 📎
             </button>
-
 
             <input
                 id="prompt"
                 type="text"
-                placeholder="پیامت رو بنویس..."
+                placeholder="پیام خود را بنویس..."
                 autocomplete="off"
             >
 
-
-            <button id="send">
+            <button id="send" title="ارسال">
                 ➤
             </button>
 
-
         </footer>
-
 
     </main>
 
-
 </div>
-
-
 
 <script src="script.js"></script>
 
